@@ -1,5 +1,6 @@
 package tokyo.tommykw.capture
 
+import android.content.Context
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 
 import java.io.IOException
 
@@ -59,8 +61,55 @@ class MainActivity : AppCompatActivity() {
         mediaRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
         mediaRecorder!!.setOutputFile(fileName)
         mediaRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+
+        try {
+            mediaRecorder!!.prepare();
+        } catch (e: IOException) {
+            Log.e(TAG, "prepare failed");
+        }
     }
 
+    private fun stopRecording() {
+        mediaRecorder!!.stop();
+        mediaRecorder!!.release();
+        mediaRecorder = null;
+    }
+
+    private class RecordButton(context: Context) : Button(context) {
+        var startRecording = true
+        val clicker = View.OnClickListener {
+            onRecord(startRecording)
+            if (startRecording) {
+                text = "Stop recording"
+            } else {
+                text = "Start recording"
+            }
+            startRecording = startRecording!
+        }
+
+        init {
+            text = "Start recording"
+            setOnClickListener(clicker)
+        }
+    }
+
+    private class PlayButton(context: Context) : Button(context) {
+        var startPlaying = true
+        val clicker = View.OnClickListener {
+            onPlay(startPlaying)
+            if (startPlaying) {
+                text = "Stop playing"
+            } else {
+                text = "Start playing"
+            }
+            startPlaying = startPlaying!
+        }
+
+        init {
+            text = "Start playing";
+            setOnClickListener(clicker)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
