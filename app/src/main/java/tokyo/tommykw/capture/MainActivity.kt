@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         mediaRecorder = null;
     }
 
-    private class RecordButton(context: Context) : Button(context) {
+    private inner class RecordButton(context: Context) : Button(context) {
         var startRecording = true
         val clicker = View.OnClickListener {
             onRecord(startRecording)
@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private class PlayButton(context: Context) : Button(context) {
+    private inner class PlayButton(context: Context) : Button(context) {
         var startPlaying = true
         val clicker = View.OnClickListener {
             onPlay(startPlaying)
@@ -121,6 +121,19 @@ class MainActivity : AppCompatActivity() {
         fab.setOnClickListener { view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show() }
     }
 
+    override fun onPause() {
+        super.onPause()
+        if (mediaRecorder != null) {
+            mediaRecorder!!.release()
+            mediaRecorder = null
+        }
+
+        if (mediaPlayer != null) {
+            mediaPlayer!!.release()
+            mediaPlayer = null
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -142,7 +155,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private val TAG = MainActivity::class.java!!.getSimpleName()
-        private val fileName: String? = null
+        private val TAG = MainActivity::class.simpleName;
+        private var fileName: String? = null
     }
 }
