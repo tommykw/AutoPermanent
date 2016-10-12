@@ -1,1 +1,1 @@
-include ':auto-permanent-sample', ':auto-permanent-compiler', ':auto-permanent-runtime', ':auto-permanent-plugin'
+include ':auto-permanent-sample', ':auto-permanent-compiler', ':auto-permanent-plugin', ':auto-permanent-runtime'

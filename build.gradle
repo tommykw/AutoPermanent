@@ -13,7 +13,7 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-apply plugin: 'kotlin-android'
+apply plugin: 'kotlin'
 
 allprojects {
     repositories {
@@ -30,8 +30,6 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
-android {
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
 }

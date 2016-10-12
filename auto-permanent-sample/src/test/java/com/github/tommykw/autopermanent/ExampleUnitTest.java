@@ -1,4 +1,4 @@
-package com.github.tommykw.auto_permanent_compiler;
+package com.github.tommykw.autopermanent;
 
 import org.junit.Test;
 
