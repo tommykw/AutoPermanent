@@ -9,5 +9,18 @@ class Compiler {
         val parcelables = grip.select(classes)
             .from(options.project)
             .where(isAutoParcelable())
+
+        options.project.forEach {
+            it.copyRecursively(options.output, true)
+        }
+
+        parcelables.execute().classes.forEach {
+            val spec = AutoParcelableClassSpecFactory.from(it)
+            val generator = ParcelableContentGenerator(spec, ValueAdapterFactory.from(factory, spec))
+
+            generator.generate(environment).forEach {
+                File(options.output, it.path).writeBytes(it.content)
+            }
+        }
     }
 }
